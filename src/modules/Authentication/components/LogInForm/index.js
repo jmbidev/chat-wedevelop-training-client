@@ -1,16 +1,33 @@
 import React from 'react'
+import { string } from 'yup'
+import PropTypes from 'prop-types'
 
-import Form from '../../containers/Form'
-import FormField from '../FormField'
+import Form, { SubmitButton } from '../Form'
 
-export default (props) => {
+const fields = [
+  {
+    name: 'username',
+    placeholder: 'Username',
+    validation: string().required('Please provide a username')
+  },
+  {
+    name: 'password',
+    placeholder: 'Password',
+    type: 'password',
+    validation: string().required('Please provide a password')
+  }
+]
+
+export default LogInForm
+
+function LogInForm ({ onSubmit }) {
   return (
-    <Form
-      submitButtonText='Log in'
-      {...props}
-    >
-      <FormField name='Username' />
-      <FormField name='Password' type='password' />
+    <Form fields={fields} onSubmit={onSubmit}>
+      <SubmitButton>Sign in</SubmitButton>
     </Form>
   )
+}
+
+LogInForm.propTypes = {
+  onSubmit: PropTypes.func
 }

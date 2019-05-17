@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import PropTypes from 'prop-types'
 
-export default ({ title, link, children }) => {
+export default AuthPageFormat
+
+function AuthPageFormat ({ title, link, children }) {
   return (
     <Container>
       <Row className='justify-content-center'>
@@ -16,4 +19,13 @@ export default ({ title, link, children }) => {
       </Row>
     </Container>
   )
+}
+
+AuthPageFormat.propTypes = {
+  title: PropTypes.node,
+  children: PropTypes.node,
+  link: PropTypes.exact({
+    to: PropTypes.string.isRequired,
+    text: PropTypes.node.isRequired
+  })
 }
