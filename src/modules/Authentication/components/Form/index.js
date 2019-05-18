@@ -40,7 +40,7 @@ function reduceFields (fields, propertySelector) {
   return fields.reduce((previousReduction, { name, ...properties }) => ({
     ...previousReduction,
     [name]: propertySelector(properties)
-  }))
+  }), {})
 }
 
 function FormField ({ name, placeholder, isValid, type = 'text' }) {
@@ -74,17 +74,19 @@ function SubmitButton ({ children }) {
 
 Form.propTypes = {
   children: PropTypes.node,
-  fields: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(['text', 'password']),
-    placeholder: PropTypes.string,
-    initialValue: PropTypes.string,
-    validation: (props, propName, componentName) => {
-      if (!isSchema(props[propName])) {
-        return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Not a valid Yup Schema.`)
+  fields: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      type: PropTypes.oneOf(['text', 'password']),
+      placeholder: PropTypes.string,
+      initialValue: PropTypes.string,
+      validation: (props, propName, componentName) => {
+        if (!isSchema(props[propName])) {
+          return new Error(`Invalid prop "${propName}" supplied to "${componentName}". Not a valid Yup Schema.`)
+        }
       }
-    }
-  })
+    })
+  )
 }
 
 SubmitButton.propTypes = {
