@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -8,9 +8,7 @@ import PropTypes from 'prop-types'
 
 export default AuthPageFormat
 
-function AuthPageFormat ({ title, link, children, showErrorMessage }) {
-  const [errorMessageHidden, setErrorMessageHidden] = useState(false)
-
+function AuthPageFormat ({ title, link, children, showErrorMessage, onHideErrorMessage }) {
   return (
     <Container>
       <Row className='justify-content-center'>
@@ -20,8 +18,8 @@ function AuthPageFormat ({ title, link, children, showErrorMessage }) {
             <Alert
               dismissible
               variant='danger'
-              show={!errorMessageHidden}
-              onClose={() => setErrorMessageHidden(true)}
+              show={showErrorMessage}
+              onClose={onHideErrorMessage}
             >
               <b>Oh snap!</b> Something went wrong.
             </Alert>
@@ -41,5 +39,6 @@ AuthPageFormat.propTypes = {
     to: PropTypes.string.isRequired,
     text: PropTypes.node.isRequired
   }),
-  showErrorMessage: PropTypes.bool
+  showErrorMessage: PropTypes.bool,
+  onHideErrorMessage: PropTypes.func
 }
