@@ -21,7 +21,6 @@ export default (props) => {
   )
 
   function handleSuccess (user) {
-    console.log(user)
     setShowErrorMessage(false)
   }
 
