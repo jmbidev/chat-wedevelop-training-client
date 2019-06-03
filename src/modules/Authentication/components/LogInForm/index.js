@@ -1,8 +1,9 @@
 import React from 'react'
 import { string } from 'yup'
-import PropTypes from 'prop-types'
 
-import Form, { SubmitButton } from '../Form'
+import AuthForm from '../AuthForm'
+
+import signinMutation from '../../../../mutations/signinMutation'
 
 const fields = [
   {
@@ -20,14 +21,23 @@ const fields = [
 
 export default LogInForm
 
-function LogInForm ({ onSubmit }) {
+function LogInForm ({ onError, onSuccess }) {
   return (
-    <Form fields={fields} onSubmit={onSubmit}>
-      <SubmitButton>Sign in</SubmitButton>
-    </Form>
+    <AuthForm
+      mutation={signinMutation}
+
+      fields={fields}
+      submitText={'Sign in'}
+
+      onError={onError}
+      onSuccess={onSuccess}
+
+      extractResult={({ signin }) => signin}
+    />
   )
 }
 
 LogInForm.propTypes = {
-  onSubmit: PropTypes.func
+  onError: AuthForm.propTypes.onError,
+  onSuccess: AuthForm.propTypes.onSuccess
 }
