@@ -3,10 +3,10 @@ import gql from 'graphql-tag'
 import AuthResultFragment from './authResultFragment'
 
 export default gql`
-  mutation Signup($data: SignupInput!) {
+  mutation Signin($data: SigninInput!) {
     ${AuthResultFragment}
-    
-    signup(data: $data) {
+
+    signin(data: $data) {
       ...AuthResultFragment
     }
   }
