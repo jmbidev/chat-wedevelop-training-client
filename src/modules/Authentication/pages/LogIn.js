@@ -12,6 +12,7 @@ export default (props) => {
       link={{ to: '/auth/signup', text: 'Don\'t have an account?' }}
       showErrorMessage={showErrorMessage}
       onHideErrorMessage={() => setShowErrorMessage(false)}
+      onError={handleError}
     >
       <LogInForm
         onSuccess={handleSuccess}
