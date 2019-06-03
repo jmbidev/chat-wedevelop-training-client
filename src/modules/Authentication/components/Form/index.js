@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 
 export { Form as default, SubmitButton }
 
-function Form ({ fields, children, ...props }) {
+function Form ({ fields, children, disabled, ...props }) {
   return (
     <Formik
       validationSchema={buildSchemaFromFields(fields)}
@@ -17,7 +17,7 @@ function Form ({ fields, children, ...props }) {
       {({ touched, errors }) => (
         <FormikForm noValidate>
           {fields.map(({ name, ...fieldProps }) => (
-            <FormField {...fieldProps} key={name} name={name} isValid={touched[name] && !errors[name]} />
+            <FormField {...fieldProps} disabled={disabled} key={name} name={name} isValid={touched[name] && !errors[name]} />
           ))}
 
           {children}
@@ -43,7 +43,7 @@ function reduceFields (fields, propertySelector) {
   }), {})
 }
 
-function FormField ({ name, placeholder, isValid, type = 'text' }) {
+function FormField ({ name, disabled, placeholder, isValid, type = 'text' }) {
   return (
     <BootstrapForm.Group>
       <Field name={name}>
@@ -56,6 +56,7 @@ function FormField ({ name, placeholder, isValid, type = 'text' }) {
             type={type}
             onChange={onChange}
             onBlur={onBlur}
+            disabled={disabled}
           />
         )}
       </Field>
@@ -64,9 +65,9 @@ function FormField ({ name, placeholder, isValid, type = 'text' }) {
   )
 }
 
-function SubmitButton ({ children }) {
+function SubmitButton ({ children, disabled }) {
   return (
-    <Button type='submit' className='w-100 mt-2 mb-5 py-2'>
+    <Button disabled={disabled} type='submit' className='w-100 mt-2 mb-5 py-2'>
       {children}
     </Button>
   )
@@ -86,9 +87,11 @@ Form.propTypes = {
         }
       }
     })
-  )
+  ),
+  disabled: PropTypes.bool
 }
 
 SubmitButton.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  disabled: PropTypes.bool
 }
