@@ -5,7 +5,6 @@ import { ApolloProvider } from 'react-apollo'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { persistCache } from 'apollo-cache-persist'
 import { createHttpLink } from 'apollo-link-http'
-import { withClientState } from 'apollo-link-state'
 
 import userAuthenticationMiddleware from './userAuthenticationMiddleware'
 import localResolversOnCacheMiss from './apolloLocalCacheResolvers'
@@ -23,11 +22,11 @@ persistCache({
   cache,
   storage: window.localStorage
 }).then(() => {
-  const link = withClientState({ cache, resolvers: localResolversOnCacheMiss })
-    .concat(userAuthenticationMiddleware)
-    .concat(httpLink)
-
-  const client = new ApolloClient({ link, cache })
+  const client = new ApolloClient({
+    link: userAuthenticationMiddleware.concat(httpLink),
+    cache,
+    resolvers: localResolversOnCacheMiss
+  })
 
   ReactDOM.render(
     <ApolloProvider client={client}>
