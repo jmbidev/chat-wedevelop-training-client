@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo'
 
 import Form, { SubmitButton } from '../Form'
 import userAccessTokenQuery from '../../../../queries/userAccessToken'
+import currentUserQuery from '../../../../queries/currentUserQuery'
 
 export default AuthForm
 
@@ -32,7 +33,14 @@ function AuthForm ({ onError, onSuccess, mutation, extractResult, submitText, fi
   )
 
   function handleCacheUpdate (cache, { data }) {
-    const { jwt } = extractResult(data)
+    const { jwt, user } = extractResult(data)
+
+    if (user) {
+      cache.writeQuery({
+        query: currentUserQuery,
+        data: { currentUser: user }
+      })
+    }
 
     if (jwt) {
       cache.writeQuery({

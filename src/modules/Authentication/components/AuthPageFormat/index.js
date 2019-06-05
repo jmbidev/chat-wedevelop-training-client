@@ -6,9 +6,35 @@ import Col from 'react-bootstrap/Col'
 import Alert from 'react-bootstrap/Alert'
 import PropTypes from 'prop-types'
 
+import UserAuthentication from '../UserAuthentication'
+
 export default AuthPageFormat
 
-function AuthPageFormat ({ title, link, children, showErrorMessage, onHideErrorMessage }) {
+function AuthPageFormat ({ onError, ...props }) {
+  return (
+    <UserAuthentication
+      authRequired={false}
+      redirectTo='/currentUser'
+      onError={onError}
+    >
+      <AuthPageContent {...props} />
+    </UserAuthentication>
+  )
+}
+
+AuthPageFormat.propTypes = {
+  onError: PropTypes.func,
+  title: PropTypes.node,
+  children: PropTypes.node,
+  link: PropTypes.exact({
+    to: PropTypes.string.isRequired,
+    text: PropTypes.node.isRequired
+  }),
+  showErrorMessage: PropTypes.bool,
+  onHideErrorMessage: PropTypes.func
+}
+
+function AuthPageContent ({ title, link, children, showErrorMessage, onHideErrorMessage }) {
   return (
     <Container>
       <Row className='justify-content-center'>
@@ -30,15 +56,4 @@ function AuthPageFormat ({ title, link, children, showErrorMessage, onHideErrorM
       </Row>
     </Container>
   )
-}
-
-AuthPageFormat.propTypes = {
-  title: PropTypes.node,
-  children: PropTypes.node,
-  link: PropTypes.exact({
-    to: PropTypes.string.isRequired,
-    text: PropTypes.node.isRequired
-  }),
-  showErrorMessage: PropTypes.bool,
-  onHideErrorMessage: PropTypes.func
 }
